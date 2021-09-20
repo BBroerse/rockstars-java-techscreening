@@ -1,0 +1,25 @@
+version: '1'
+
+services:
+  techscreening-api:
+    image: 'openjdk:16-jdk-alpine'
+    ports:
+      - "8081:8081"
+    build:
+      context: .
+    container_name: techscreening-api
+    depends_on:
+      - techscreening-dbdb
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://techscreening-db:5432/techscreening
+      - SPRING_DATASOURCE_USERNAME=techscreening
+      - SPRING_DATASOURCE_PASSWORD=techscreening
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  techscreening-db:
+    image: 'postgres:13.1-alpine'
+    container_name: techscreening-db
+    environment:
+      - POSTGRES_USER=techscreening
+      - POSTGRES_PASSWORD=techscreening
+      - POSTGRES_DB=techscreening
